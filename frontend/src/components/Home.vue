@@ -2,132 +2,345 @@
   <v-container>
 
     <v-row justify="center">
-      <v-col cols="10" md="6">
 
-        <v-slider
-          color="blue"
-          class="mt-12"
-          v-model="sepalLength"
-          label="Sepal Length (cm)"
-          thumb-label="always"
-          max="10"
-          min="1"
-          step="0.1"
-        ></v-slider>
+      <v-col cols="12" md="6" sm="8">
 
-        <v-slider
-          color="purple"
-          class="mt-12"
-          v-model="sepalWidth"
-          label="Sepal Width (cm)"
-          thumb-label="always"
-          max="5"
-          min="1"
-          step="0.1"
-        ></v-slider>
+        <v-select
+          :items="genders"
+          label="Your Gender"
+          solo
+        ></v-select>
 
-        <v-slider
-          color="orange"
-          class="mt-12"
-          v-model="petalLength"
-          label="Petal Length (cm)"
-          thumb-label="always"
-          max="10"
-          min="1"
-          step="0.1"
-        ></v-slider>
+        <v-select
+          :items="ages"
+          label="Your Age"
+          solo
+        ></v-select>
 
-        <v-slider
-          color="green"
-          class="mt-12"
-          v-model="petalWidth"
-          label="Petal Width (cm)"
-          thumb-label="always"
-          max="5"
-          min="0.1"
-          step="0.1"
-        ></v-slider>
+        <v-autocomplete
+          :items="countries"
+          label="Your Country"
+          solo
+        ></v-autocomplete>
+
+        <v-select
+          :items="symptoms"
+          label="Your Symptoms"
+          chips
+          multiple
+          solo
+          append-icon="mdi-plus"
+        ></v-select>
 
       </v-col>
+
     </v-row>
 
     <v-row justify="center" >
-      <v-btn :loading="predictLoading" @click="predict" >Predict</v-btn>
+      <v-btn>Predict Probability</v-btn>
+      <!-- <v-btn :loading="predictLoading" @click="predict" >Predict</v-btn> -->
     </v-row>
-
-    <v-overlay :value="overlay">
-
-      <v-row
-        align="center"
-        justify="center"
-      >
-
-        <v-card>
-          <v-img v-show="$vuetify.breakpoint.xsOnly" max-height="300" max-width="300" :src="images[predictedClass]"></v-img>
-          <v-img v-show="$vuetify.breakpoint.smAndUp" max-height="450" max-width="500" :src="images[predictedClass]"></v-img>
-          <v-card-text>
-            <span class="headline text--primary">
-              {{predictedClass}}
-            </span>
-          </v-card-text>
-        </v-card>
-
-      </v-row>
-
-      <v-row justify="center">
-        <v-btn
-          class="mt-4"
-          @click="overlay = false;"
-        >
-          Close
-        </v-btn>
-      </v-row>
-
-    </v-overlay>
 
   </v-container>
 </template>
 
 <script>
-import axios from 'axios'
+
 
 export default {
   name: 'Home',
 
   data: () => ({
-    sepalLength: 5,
-    sepalWidth: 3,
-    petalLength: 5,
-    petalWidth: 1,
 
-    predictedClass: false,
-    overlay: false,
-    predictLoading: false,
+    genders:
+    [
+      'Male',
+      'Female'
+    ],
 
-    images:
-      {
-        'Virginica': 'https://www.fs.fed.us/wildflowers/beauty/iris/Blue_Flag/images/iris_virginica/iris_virginica_virginica_lg.jpg',
-        'Versicolor': 'http://cdn.shopify.com/s/files/1/1402/5897/products/Iris-versicolor-01_800x.jpg?v=1545932465',
-        'Setosa': 'https://www.plant-world-seeds.com/images/item_images/000/007/023/large_square/iris_baby_blue.jpg?1500653527'
-      }
+    ages:
+    [
+      '0 - 9',
+      '10 - 19',
+      '20 - 29',
+      '30 - 39',
+      '40 - 49',
+      '50 - 59',
+      '60 - 69',
+      '70 - 79',
+      '80 - 89',
+      '90 - 99',
+    ],
+
+    symptoms:
+    [
+    'Anorexia',
+    'Chest pain/tightness',
+    'Chills',
+    'Cough',
+    'Diarrhea',
+    'Dizziness',
+    'Dyspnea',
+    'Fatigue',
+    'Fever',
+    'Headache',
+    'Malaise',
+    'Muscular pain/discomfort',
+    'Nausea',
+    'Runny nose',
+    'Sore throat'         
+    ],
+    
+    countries: 
+    [
+    'Afghanistan',
+    'Albania',
+    'Algeria',
+    'American Samoa',
+    'Andorra',
+    'Angola',
+    'Anguilla',
+    'Antarctica',
+    'Antigua and Barbuda',
+    'Argentina',
+    'Armenia',
+    'Aruba',
+    'Australia',
+    'Austria',
+    'Azerbaijan',
+    'Bahrain',
+    'Bangladesh',
+    'Barbados',
+    'Belarus',
+    'Belgium',
+    'Belize',
+    'Benin',
+    'Bermuda',
+    'Bhutan',
+    'Bolivia',
+    'Bosnia and Herzegovina',
+    'Botswana',
+    'Bouvet Island',
+    'Brazil',
+    'British Indian Ocean Territory',
+    'British Virgin Islands',
+    'Brunei',
+    'Bulgaria',
+    'Burkina Faso',
+    'Burundi',
+    'Cambodia',
+    'Cameroon',
+    'Canada',
+    'Cape Verde',
+    'Cayman Islands',
+    'Central African Republic',
+    'Chad',
+    'Chile',
+    'China',
+    'Christmas Island',
+    'Cocos (Keeling) Islands',
+    'Colombia',
+    'Comoros',
+    'Congo',
+    'Cook Islands',
+    'Costa Rica',
+    'Cote d\'Ivoire',
+    'Croatia',
+    'Cuba',
+    'Cyprus',
+    'Czech Republic',
+    'Democratic Republic of the Congo',
+    'Denmark',
+    'Djibouti',
+    'Dominica',
+    'Dominican Republic',
+    'East Timor',
+    'Ecuador',
+    'Egypt',
+    'El Salvador',
+    'Equatorial Guinea',
+    'Eritrea',
+    'Estonia',
+    'Ethiopia',
+    'Faeroe Islands',
+    'Falkland Islands',
+    'Fiji',
+    'Finland',
+    'Former Yugoslav Republic of Macedonia',
+    'France',
+    'French Guiana',
+    'French Polynesia',
+    'French Southern Territories',
+    'Gabon',
+    'Georgia',
+    'Germany',
+    'Ghana',
+    'Gibraltar',
+    'Greece',
+    'Greenland',
+    'Grenada',
+    'Guadeloupe',
+    'Guam',
+    'Guatemala',
+    'Guinea',
+    'Guinea-Bissau',
+    'Guyana',
+    'Haiti',
+    'Heard Island and McDonald Islands',
+    'Honduras',
+    'Hong Kong',
+    'Hungary',
+    'Iceland',
+    'India',
+    'Indonesia',
+    'Iran',
+    'Iraq',
+    'Ireland',
+    'Israel',
+    'Italy',
+    'Jamaica',
+    'Japan',
+    'Jordan',
+    'Kazakhstan',
+    'Kenya',
+    'Kiribati',
+    'Kuwait',
+    'Kyrgyzstan',
+    'Laos',
+    'Latvia',
+    'Lebanon',
+    'Lesotho',
+    'Liberia',
+    'Libya',
+    'Liechtenstein',
+    'Lithuania',
+    'Luxembourg',
+    'Macau',
+    'Madagascar',
+    'Malawi',
+    'Malaysia',
+    'Maldives',
+    'Mali',
+    'Malta',
+    'Marshall Islands',
+    'Martinique',
+    'Mauritania',
+    'Mauritius',
+    'Mayotte',
+    'Mexico',
+    'Micronesia',
+    'Moldova',
+    'Monaco',
+    'Mongolia',
+    'Montenegro',
+    'Montserrat',
+    'Morocco',
+    'Mozambique',
+    'Myanmar',
+    'Namibia',
+    'Nauru',
+    'Nepal',
+    'Netherlands',
+    'Netherlands Antilles',
+    'New Caledonia',
+    'New Zealand',
+    'Nicaragua',
+    'Niger',
+    'Nigeria',
+    'Niue',
+    'Norfolk Island',
+    'North Korea',
+    'Northern Marianas',
+    'Norway',
+    'Oman',
+    'Pakistan',
+    'Palau',
+    'Panama',
+    'Papua New Guinea',
+    'Paraguay',
+    'Peru',
+    'Philippines',
+    'Pitcairn Islands',
+    'Poland',
+    'Portugal',
+    'Puerto Rico',
+    'Qatar',
+    'Reunion',
+    'Romania',
+    'Russia',
+    'Rwanda',
+    'Sqo Tome and Principe',
+    'Saint Helena',
+    'Saint Kitts and Nevis',
+    'Saint Lucia',
+    'Saint Pierre and Miquelon',
+    'Saint Vincent and the Grenadines',
+    'Samoa',
+    'San Marino',
+    'Saudi Arabia',
+    'Senegal',
+    'Serbia',
+    'Seychelles',
+    'Sierra Leone',
+    'Singapore',
+    'Slovakia',
+    'Slovenia',
+    'Solomon Islands',
+    'Somalia',
+    'South Africa',
+    'South Georgia and the South Sandwich Islands',
+    'South Korea',
+    'South Sudan',
+    'Spain',
+    'Sri Lanka',
+    'Sudan',
+    'Suriname',
+    'Svalbard and Jan Mayen',
+    'Swaziland',
+    'Sweden',
+    'Switzerland',
+    'Syria',
+    'Taiwan',
+    'Tajikistan',
+    'Tanzania',
+    'Thailand',
+    'The Bahamas',
+    'The Gambia',
+    'Togo',
+    'Tokelau',
+    'Tonga',
+    'Trinidad and Tobago',
+    'Tunisia',
+    'Turkey',
+    'Turkmenistan',
+    'Turks and Caicos Islands',
+    'Tuvalu',
+    'Virgin Islands',
+    'Uganda',
+    'Ukraine',
+    'United Arab Emirates',
+    'United Kingdom',
+    'United States of America',
+    'United States Minor Outlying Islands',
+    'Uruguay',
+    'Uzbekistan',
+    'Vanuatu',
+    'Vatican City',
+    'Venezuela',
+    'Vietnam',
+    'Wallis and Futuna',
+    'Western Sahara',
+    'Yemen',
+    'Yugoslavia',
+    'Zambia',
+    'Zimbabwe'
+    ]
+
+
   }),
 
-   methods: {
-    predict () {
-      this.predictLoading = true
-      axios.post('https://iris-classification-backend-ze252bno3q-ez.a.run.app/predict', {
-        sepal_length: this.sepalLength,
-        sepal_width: this.sepalWidth,
-        petal_length: this.petalLength,
-        petal_width: this.petalWidth
-      })
-        .then((response) => {
-          this.predictedClass = response.data.class
-          this.overlay = true
-          this.predictLoading = false
-        })
-    }
-  }
+
   
 };
+
 </script>
