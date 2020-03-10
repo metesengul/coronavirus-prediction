@@ -9,18 +9,21 @@
           :items="genders"
           label="Your Gender"
           solo
+          class="mt-5"
         ></v-select>
 
         <v-select
           :items="ages"
           label="Your Age"
           solo
+          class="mt-2"
         ></v-select>
 
         <v-autocomplete
           :items="countries"
           label="Your Country"
           solo
+          class="mt-2"
         ></v-autocomplete>
 
         <v-select
@@ -29,6 +32,7 @@
           chips
           multiple
           solo
+          class="mt-2"
           append-icon="mdi-plus"
         ></v-select>
 
@@ -37,7 +41,7 @@
     </v-row>
 
     <v-row justify="center" >
-      <v-btn>Predict Probability</v-btn>
+      <v-btn class="mb-10">Predict Probability</v-btn>
       <!-- <v-btn :loading="predictLoading" @click="predict" >Predict</v-btn> -->
     </v-row>
 
@@ -69,7 +73,7 @@ export default {
       '60 - 69',
       '70 - 79',
       '80 - 89',
-      '90 - 99',
+      '90 +',
     ],
 
     symptoms:
